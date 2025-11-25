@@ -123,9 +123,13 @@ def health_check():
     return jsonify({"status": "OK", "message": "API is running"}), 200
 
 
-@app.route('/qr.png')
+@app.route('/qr_btc.png')
 def qr_code():
-    return send_from_directory('.', 'qr.png')
+    return send_from_directory('.', 'qr_btc.png')
+
+@app.route('/qr_paypal.png')
+def qr_code2():
+    return send_from_directory('.', 'qr_paypal.png')
 
 
 @app.route('/')
@@ -197,23 +201,30 @@ def home():
                 overflow-x: auto;
             }
 
-            .qr-container {
-                text-align: center;
-                margin-top: 40px;
-                margin-bottom: 40px;
+            .donation-block {
+                display: flex;
+                justify-content: center;
+                gap: 60px;
+                margin-top: 35px;
+                margin-bottom: 35px;
+                flex-wrap: wrap;
             }
 
-            .qr-container img {
-                width: 260px;
+            .qr-item {
+                text-align: center;
+            }
+
+            .qr-item img {
+                width: 230px;
                 border: 6px solid #e5dbc3;
                 border-radius: 10px;
+                margin-bottom: 10px;
             }
 
-            .small-note {
-                text-align: center;
-                font-size: 14px;
-                margin-top: 10px;
-                color: #555;
+            .donation-title {
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 8px;
             }
 
             .footer {
@@ -242,29 +253,39 @@ def home():
         <p>
             Esta API ha sido creada para bendecir a todo creyente que desee acceder a devocionales diarios,
             lecturas bíblicas y recursos espirituales. 
-            Puede ser utilizada en aplicaciones móviles, bots de Telegram, páginas web,
-            devocionales automáticos o cualquier herramienta edificante.
+            Puedes usarla en apps móviles, bots de Telegram, proyectos cristianos,
+            páginas web y cualquier herramienta de edificación.
         </p>
 
         <p>
-            Es completamente libre de usar, siempre con moderación y para la gloria de Dios.
+            Es completamente libre de usar, siempre con moderación y para la gloria del Señor Jesucristo.
         </p>
 
-        <h2>🙏 Donaciones en Bitcoin</h2>
+        <h2>🙏 Donaciones para sostener el proyecto</h2>
 
         <p>
-            Si deseas apoyar este proyecto y ayudar a mantenerlo online, puedes hacerlo enviando una ofrenda
-            en Bitcoin. ¡Muchas gracias por sembrar en la obra del Señor!
+            Si deseas apoyar este proyecto ministerial y ayudar a mantenerlo en línea, 
+            puedes realizar una ofrenda mediante Bitcoin o PayPal.
         </p>
 
-        <div class="qr-container">
-            <img src="/qr.png" alt="QR Bitcoin">
-            <div class="small-note">Escanea este código para donar en BTC.</div>
+        <div class="donation-block">
+
+            <!-- --- BITCOIN --- -->
+            <div class="qr-item">
+                <div class="donation-title">Donar con Bitcoin</div>
+                <img src="/qr_btc.png" alt="QR Bitcoin">
+            </div>
+
+            <!-- --- PAYPAL --- -->
+            <div class="qr-item">
+                <div class="donation-title">Donar con PayPal</div>
+                <img src="/qr_paypal.png" alt="QR PayPal">
+            </div>
+
         </div>
 
         <h2>🚀 Endpoints disponibles</h2>
 
-        <!-- /chequera -->
         <div class="endpoint">1. GET /chequera</div>
         <p>Devocional, versículo, día y mes correspondiente a la fecha actual.</p>
         <p><a href="/chequera" target="_blank">👉 Probar endpoint</a></p>
@@ -276,9 +297,8 @@ def home():
   "versiculo": "¿Quién eres tú, oh gran monte?... Zacarías 4:7"
 }</pre>
 
-        <!-- /lectura_anual -->
         <div class="endpoint">2. GET /lectura_anual</div>
-        <p>Lectura bíblica correspondiente al día del año (AT, NT y Sabiduría).</p>
+        <p>Lectura bíblica correspondiente al día del año.</p>
         <p><a href="/lectura_anual" target="_blank">👉 Probar endpoint</a></p>
 
         <pre>{
@@ -288,7 +308,6 @@ def home():
   "sabiduria": "Salmos 133:1-3"
 }</pre>
 
-        <!-- /ping -->
         <div class="endpoint">3. GET /ping</div>
         <p>Comprueba si la API está funcionando correctamente.</p>
         <p><a href="/ping" target="_blank">👉 Probar endpoint</a></p>
@@ -299,8 +318,8 @@ def home():
 }</pre>
 
         <div class="footer">
-            Proyecto comunitario de libre uso — Que el Señor te bendiga poderosamente.<br>
-            Si necesitas soporte o tienes sugerencias, contáctame en Telegram:<br>
+            Proyecto comunitario — Que el Señor te bendiga abundantemente.<br>
+            Para soporte o ideas, contáctame en Telegram:<br>
             <a href="https://t.me/adriel_fj" target="_blank">@adriel_fj</a>
         </div>
 
