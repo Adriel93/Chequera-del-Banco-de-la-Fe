@@ -10,6 +10,23 @@ app = Flask(__name__)
 
 DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chequera.db')
 
+MESES_ES = {
+    1: "Enero",
+    2: "Febrero",
+    3: "Marzo",
+    4: "Abril",
+    5: "Mayo",
+    6: "Junio",
+    7: "Julio",
+    8: "Agosto",
+    9: "Septiembre",
+    10: "Octubre",
+    11: "Noviembre",
+    12: "Diciembre"
+}
+
+
+
 def get_db_connection():
     # Función de ayuda para conectar a la DB
     conn = sqlite3.connect(DATABASE)
@@ -62,43 +79,40 @@ def obtener_lectura_anual():
         return jsonify({"mensaje": "No se encontraron datos para el día actual"}), 404
 
 # Ruta para la API chequera
-@app.route('/api/chequera', methods=['GET'])
 def obtener_chequera():
-    # Establecer la configuración regional a español
-    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
 
-    # Obtener el día y el mes actual
+    # Día y mes actual
     dia_actual = date.today().day
-    mes_actual_espanol = datetime.now().strftime("%B").capitalize()  # Obtener el nombre del mes en español
+    mes_actual = datetime.now().month
+    mes_actual_espanol = MESES_ES[mes_actual]
 
-    # Conectar a la base de datos
+    # Conectar DB
     conn = sqlite3.connect('chequera.db')
     cursor = conn.cursor()
 
-    # Obtener todos los registros de la tabla 'chequera' para el día y el mes actual
-    cursor.execute('SELECT * FROM chequera WHERE dia_del_mes = ? AND mes = ?', (dia_actual, mes_actual_espanol))
+    cursor.execute(
+        'SELECT * FROM chequera WHERE dia_del_mes = ? AND mes = ?',
+        (dia_actual, mes_actual_espanol)
+    )
     registros = cursor.fetchall()
 
-    # Verificar si hay registros para el día y el mes actual
     if registros:
-        # Obtener los datos del primer registro (puedes ajustar según tu lógica)
         dia_registro = registros[0][1]
         mes_registro = registros[0][2]
         versiculo_registro = registros[0][3]
         devocional_registro = registros[0][4]
 
-        # Devolver los datos en formato JSON con el orden especificado
+        conn.close()
+
         return jsonify({
             'dia': dia_registro,
             'mes': mes_registro,
             'versiculo': versiculo_registro,
             'devocional': devocional_registro
         })
-    else:
-        return jsonify({'mensaje': 'No hay devocional disponible para el día y el mes actual'})
 
-    # Cerrar la conexión a la base de datos
     conn.close()
+    return jsonify({'mensaje': 'No hay devocional disponible para hoy'})
 
 # Health check route
 @app.route('/ping', methods=['GET'])
