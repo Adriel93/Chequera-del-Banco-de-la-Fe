@@ -79,6 +79,7 @@ def obtener_lectura_anual():
         return jsonify({"mensaje": "No se encontraron datos para el día actual"}), 404
 
 # Ruta para la API chequera
+@app.route('/api/chequera', methods=['GET'])
 def obtener_chequera():
 
     # Día y mes actual
@@ -115,11 +116,11 @@ def obtener_chequera():
     return jsonify({'mensaje': 'No hay devocional disponible para hoy'})
 
 # Health check route
-@app.route('/ping', methods=['GET'])
+@app.route('/api/ping', methods=['GET'])
 def health_check():
     return jsonify({"status": "OK", "message": "API is running"}), 200
 
 # 3. Eliminar el bloque if __name__ == '__main__':
 # Vercel no lo ejecuta, ya que importa la variable `app`.
-# if __name__ == '__main__':
-# 	app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=False)
+if __name__ == '__main__':
+	app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=False)
