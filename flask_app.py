@@ -122,5 +122,5 @@ def health_check():
 
 # 3. Eliminar el bloque if __name__ == '__main__':
 # Vercel no lo ejecuta, ya que importa la variable `app`.
-if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=False)
+#if __name__ == '__main__':
+#	app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=False)
