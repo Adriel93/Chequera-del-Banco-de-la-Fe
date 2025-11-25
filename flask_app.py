@@ -46,7 +46,7 @@ def set_spanish_locale():
                 pass 
 
 # Ruta para la API lectura_anual
-@app.route('/api/lectura_anual', methods=['GET'])
+@app.route('/lectura_anual', methods=['GET'])
 def obtener_lectura_anual():
     # Obtener el número del día actual en el año
     dia_actual = datetime.now().timetuple().tm_yday
@@ -79,7 +79,7 @@ def obtener_lectura_anual():
         return jsonify({"mensaje": "No se encontraron datos para el día actual"}), 404
 
 # Ruta para la API chequera
-@app.route('/api/chequera', methods=['GET'])
+@app.route('/chequera', methods=['GET'])
 def obtener_chequera():
 
     # Día y mes actual
@@ -116,7 +116,7 @@ def obtener_chequera():
     return jsonify({'mensaje': 'No hay devocional disponible para hoy'})
 
 # Health check route
-@app.route('/api/ping', methods=['GET'])
+@app.route('/ping', methods=['GET'])
 def health_check():
     return jsonify({"status": "OK", "message": "API is running"}), 200
 
